@@ -15,9 +15,17 @@ public class move_sticker : MonoBehaviour
     {
         objectCollider = GetComponent<Collider2D>();
         isDraggable = false;
+        Stickeble = false;
         startPosition = this.transform.position;
     }
-
+    void OnCollisionEnter2D()
+    {
+        Stickeble = true;
+    }
+    void OnCollisionExit2D()
+    {
+        Stickeble = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -47,13 +55,8 @@ public class move_sticker : MonoBehaviour
             DragBack();
         }
     }
-    private void onTriggerEnter(Collider2D other)
-    {
-        Stickeble = true;
-    }
     void DragBack()
     {
-        onTriggerEnter(backG.objectCollider);
         if(!Stickeble)
         {
             this.transform.position = startPosition;
