@@ -22,7 +22,7 @@ public class sticker_buttons : MonoBehaviour
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if(Input.GetMouseButtonDown(0))
         {
-            if(objectCollider == Physics2D.OverlapPoint(mousePosition))
+            if(sticker.objectCollider == Physics2D.OverlapPoint(mousePosition))
             {
                 this.gameObject.SetActive(true);
             }
