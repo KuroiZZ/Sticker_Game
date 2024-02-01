@@ -6,17 +6,17 @@ using UnityEngine.UIElements;
 public class move_sticker : MonoBehaviour
 {
     // Start is called before the first frame update
-    bool isDraggable;
     public Collider2D objectCollider;
     Vector2 startPosition;
+    Vector2 mousePosition;
     GameObject button;
     bool Stickeble;
     bool isOutside_Menu;
     bool isOutside_Sticker;
+    bool isButtonActive;
     void Start()
     {
         objectCollider = GetComponent<Collider2D>();
-        isDraggable = false;
         Stickeble = false;
         isOutside_Menu = false;
         startPosition = this.transform.position;
@@ -44,11 +44,18 @@ public class move_sticker : MonoBehaviour
     }
     void OnCollisionExit2D(Collision2D collision)
     {
-        Stickeble = false;
         if(collision.gameObject.CompareTag("menu"))
         {
             isOutside_Menu = true;
         }
+        if(collision.gameObject.CompareTag("menu"))
+        {
+            Stickeble = false;
+        }
+    }
+    void OnMouseDrag()
+    {
+        Drag();
     }
     void OnMouseDown()
     {
@@ -60,36 +67,20 @@ public class move_sticker : MonoBehaviour
     }
     void OnMouseUp()
     {
+        DragBack();
         isOutside_Sticker = true;
     }
     // Update is called once per frame
     void Update()
     {
-        Drag();
         Buttons_Off();
     }
     void Drag()
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if(Input.GetMouseButtonDown(0))
+        if(!button.activeInHierarchy)
         {
-            if(objectCollider == Physics2D.OverlapPoint(mousePosition))
-            {
-                isDraggable = true;
-            }
-            else
-            {
-                isDraggable = false;
-            }
-        }
-        if(isDraggable)
-        {
+            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             this.transform.position = mousePosition;
-        }
-        if(Input.GetMouseButtonUp(0))
-        {
-            isDraggable = false;
-            DragBack();
         }
     }
     void DragBack()
