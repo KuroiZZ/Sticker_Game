@@ -5,8 +5,10 @@ using UnityEngine.EventSystems;
 
 public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler
 {
+    GameObject pivot;
     GameObject sizeButton;
-    Vector2 startPosition;
+    //Vector2 startPosition;
+    Vector2 startPivotPosition;
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
@@ -14,10 +16,12 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     // Start is called before the first frame update
     void Start()
     {
+        pivot = gameObject.transform.parent.gameObject;
         sizeButton = gameObject.transform.GetChild(0).gameObject;
         sizeButton.SetActive(false);
 
-        startPosition = this.transform.position;
+        //startPosition = this.transform.position;
+        startPivotPosition = pivot.transform.position;
 
         isSticker_OutsideMenu = false;
         isPointer_OutsideSticker = true;
@@ -89,18 +93,23 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         if(!sizeButton.activeInHierarchy)
         {
             Vector2 mousePosition = Input.mousePosition;
+            Vector2 pivotPosition;
             if(mousePosition != (Vector2)this.transform.position)
             {
                 onDrag = true;
             }
             this.transform.position = mousePosition;
+            pivotPosition.x = this.transform.position.x - GetComponent<RectTransform>().rect.width/2;
+            pivotPosition.y = this.transform.position.y + GetComponent<RectTransform>().rect.height/2;
+            pivot.transform.position = pivotPosition;
         }
     }
     void ReturnToStart()
     {
         if(!Stickeble)
         {
-            this.transform.position = startPosition;
+            //this.transform.position = startPosition;
+            pivot.transform.position = startPivotPosition;
         }
     }
     void Set_sizeButton_Active()
