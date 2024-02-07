@@ -4,17 +4,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using UnityEditor.PackageManager.Requests;
 
 public class SizeButton_sc : MonoBehaviour, IDragHandler
 {
-    GameObject parent;
-    GameObject parentsParent;
+    GameObject Sticker;
+    GameObject pivot;
+    GameObject Reset_Button;
     Vector2 prevMousePosition;
     // Start is called before the first frame update
     void Start()
     {
-        parent = gameObject.transform.parent.gameObject;
-        parentsParent = parent.transform.parent.gameObject;
+        Sticker = gameObject.transform.parent.gameObject;
+
+        Reset_Button = Sticker.transform.GetChild(1).gameObject;
+
+        pivot = Sticker.transform.parent.gameObject;
+
         prevMousePosition = this.transform.position;
     }
 
@@ -25,13 +31,13 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     }
     public void OnDrag(PointerEventData eventData)
     {
-        ReSize_parent();
-        Fix_Size();
+        ReSize_Sticker();
+        Fix_Size(this.gameObject,Reset_Button,pivot);
     }
-    void ReSize_parent()
+    void ReSize_Sticker()
     {
         Vector2 mousePosition = Input.mousePosition;
-        Vector3 scale = parentsParent.transform.localScale;
+        Vector2 scale = pivot.transform.localScale;
 
         if((mousePosition.x > prevMousePosition.x && mousePosition.y < prevMousePosition.y) ||
         (mousePosition.x < prevMousePosition.x && mousePosition.y > prevMousePosition.y))
@@ -40,12 +46,13 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
             scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
         }
           
-        parentsParent.transform.localScale = scale;
+        pivot.transform.localScale = scale;
         prevMousePosition = mousePosition;
     }
-    void Fix_Size()
+    public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject StickerParent)
     {
         float FixScale = 1; 
-        this.transform.localScale = new Vector2(FixScale/parentsParent.transform.localScale.x,FixScale/parentsParent.transform.localScale.y);
+        sizeB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
+        resetB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
     }
 }
