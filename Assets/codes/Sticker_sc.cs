@@ -8,6 +8,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     GameObject pivot;
     GameObject SizeButton;
     GameObject ResetButton;
+    GameObject ReverseButton;
     Vector2 PivotStartPosition;
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
@@ -23,6 +24,9 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
 
         ResetButton = this.transform.GetChild(1).gameObject;
         ResetButton.SetActive(false);
+
+        ReverseButton = this.transform.GetChild(2).gameObject;
+        ReverseButton.SetActive(false);
 
         PivotStartPosition = pivot.transform.position;
 
@@ -112,7 +116,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         if(!Stickeble)
         {
             pivot.transform.position = PivotStartPosition;
-            ResetButton_sc.Reset_All(SizeButton,ResetButton,pivot);
+            ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,pivot,this.gameObject);
         }
     }
     internal void ActivateButtons()
@@ -121,6 +125,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         {
             SizeButton.SetActive(true);
             ResetButton.SetActive(true);
+            ReverseButton.SetActive(true);
         }
     }
     internal void DeactivateButtons()
@@ -129,6 +134,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         {
             SizeButton.SetActive(false);
             ResetButton.SetActive(false);
+            ReverseButton.SetActive(false);
         }
     }
 }
