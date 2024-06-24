@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class ResetButton_sc : MonoBehaviour, IPointerClickHandler
 {
@@ -23,11 +24,11 @@ public class ResetButton_sc : MonoBehaviour, IPointerClickHandler
     }
     public static void Reset_All(GameObject sizeB, GameObject resetB, GameObject reverseB,GameObject StickerParent, GameObject Sticker)
     {
-        StickerParent.transform.localScale = new Vector2(1,1);
+        StickerParent.transform.localScale = new Vector2(1,1); //resets stickers size 
 
-        SizeButton_sc.Fix_Size(sizeB,resetB,reverseB,StickerParent);
+        SizeButton_sc.Fix_Size(sizeB,resetB,reverseB,StickerParent); //resets buttons size 
 
-        if(Sticker.transform.localRotation.y == -180 || Sticker.transform.localRotation.y == 180)
+        if(Sticker.transform.localRotation.y == -180 || Sticker.transform.localRotation.y == 180) //resets stickers rotation 
         {
             ReverseButton_sc.ReverseSticker(sizeB,resetB,reverseB,Sticker);
         }

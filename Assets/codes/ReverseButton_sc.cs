@@ -23,18 +23,18 @@ public class ReverseButton_sc : MonoBehaviour, IPointerClickHandler
     }
     internal static void ReverseSticker(GameObject sizeB, GameObject resetB, GameObject reverseB,GameObject Sticker)
     {
-        Vector2 SizeButton_Position = sizeB.transform.position;
+        Vector2 SizeButton_Position = sizeB.transform.position; //We get buttons' first position to use it after reverse 
         Vector2 ResetButton_Position = resetB.transform.position;
         Vector2 ReverseButton_Position = reverseB.transform.position;
 
-        Sticker.transform.Rotate(0f, 180f, 0f);
+        Sticker.transform.Rotate(0f, 180f, 0f); //sticker is reversed here
 
-        sizeB.transform.position = SizeButton_Position;
-        resetB.transform.position = ResetButton_Position;
+        sizeB.transform.position = SizeButton_Position;//We use their first positions to make them stay in their place
+        resetB.transform.position = ResetButton_Position;//So we protected their position here
         reverseB.transform.position = ReverseButton_Position;
 
-        sizeB.transform.Rotate(0f, 180f, 0f);
-        resetB.transform.Rotate(0f, 180f, 0f);
+        sizeB.transform.Rotate(0f, 180f, 0f);  //Buttons are reversed back since they shouldn't be reversed.
+        resetB.transform.Rotate(0f, 180f, 0f);//And we protected their image here
         reverseB.transform.Rotate(0f, 180f, 0f);
     }
 }

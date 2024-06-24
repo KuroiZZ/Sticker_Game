@@ -42,18 +42,15 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         Vector2 mousePosition = Input.mousePosition;
         Vector2 scale = pivot.transform.localScale;
 
-        if((mousePosition.x > prevMousePosition.x && mousePosition.y < prevMousePosition.y) ||
-        (mousePosition.x < prevMousePosition.x && mousePosition.y > prevMousePosition.y))
-        {
-            scale.x += (mousePosition.x - this.transform.position.x)*0.005f;
-            scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
-        }
+        scale.x += (mousePosition.x - this.transform.position.x)*0.005f;
+        scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
           
         pivot.transform.localScale = scale;
         prevMousePosition = mousePosition;
     }
     public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject StickerParent)
     {
+        //This function keeps the little buttons' size fixed.
         float FixScale = 1; 
         sizeB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
         resetB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
