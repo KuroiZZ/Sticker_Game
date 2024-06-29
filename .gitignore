@@ -4,4 +4,5 @@
 **/Packages
 **/ProjectSettings
 **/UserSettings
-**/.sln
+**/Temp
+*.sln
