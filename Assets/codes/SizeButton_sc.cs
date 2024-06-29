@@ -41,9 +41,18 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     {
         Vector2 mousePosition = Input.mousePosition;
         Vector2 scale = pivot.transform.localScale;
+        //With scale.x comparations we determine pivots max and min size
+        //With (mousePosition.x - this.transform.position.x) comparations we determine if pivot is going to get larger or get smaller 
+        if((scale.x >= 2 && (mousePosition.x - this.transform.position.x) > 0) || (scale.x <= 0.5 && (mousePosition.x - this.transform.position.x) < 0))
+        {
+            scale = pivot.transform.localScale;
+        }
+        else
+        {
+            scale.x += (mousePosition.x - this.transform.position.x)*0.005f;
+            scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
+        }
 
-        scale.x += (mousePosition.x - this.transform.position.x)*0.005f;
-        scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
           
         pivot.transform.localScale = scale;
         prevMousePosition = mousePosition;
