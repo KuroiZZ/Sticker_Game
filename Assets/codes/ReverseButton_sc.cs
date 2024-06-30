@@ -27,14 +27,28 @@ public class ReverseButton_sc : MonoBehaviour, IPointerClickHandler
         Vector2 ResetButton_Position = resetB.transform.position;
         Vector2 ReverseButton_Position = reverseB.transform.position;
 
-        Sticker.transform.Rotate(0f, 180f, 0f); //sticker is reversed here
+        if(Sticker.transform.rotation.eulerAngles.y == 180)
+        {
+            Sticker.transform.Rotate(0f, -180f, 0f); //sticker is reversed here
+            Debug.Log(Sticker.transform.rotation.eulerAngles.y);
+
+            sizeB.transform.Rotate(0f, -180f, 0f);  //Buttons are reversed back since they shouldn't be reversed.
+            resetB.transform.Rotate(0f, -180f, 0f);//And we protected their image here
+            reverseB.transform.Rotate(0f, -180f, 0f);
+        }
+        else
+        {
+            Sticker.transform.Rotate(0f, 180f, 0f); //sticker is reversed here
+            Debug.Log(Sticker.transform.rotation.eulerAngles.y);
+            sizeB.transform.Rotate(0f, 180f, 0f);  //Buttons are reversed back since they shouldn't be reversed.
+            resetB.transform.Rotate(0f, 180f, 0f);//And we protected their image here
+            reverseB.transform.Rotate(0f, 180f, 0f);
+        }
 
         sizeB.transform.position = SizeButton_Position;//We use their first positions to make them stay in their place
         resetB.transform.position = ResetButton_Position;//So we protected their position here
         reverseB.transform.position = ReverseButton_Position;
 
-        sizeB.transform.Rotate(0f, 180f, 0f);  //Buttons are reversed back since they shouldn't be reversed.
-        resetB.transform.Rotate(0f, 180f, 0f);//And we protected their image here
-        reverseB.transform.Rotate(0f, 180f, 0f);
+
     }
 }
