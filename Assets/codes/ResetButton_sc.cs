@@ -28,7 +28,7 @@ public class ResetButton_sc : MonoBehaviour, IPointerClickHandler
 
         SizeButton_sc.Fix_Size(sizeB,resetB,reverseB,StickerParent); //resets buttons size 
 
-        if(Sticker.transform.localRotation.y == -180 || Sticker.transform.localRotation.y == 180) //resets stickers rotation 
+        if(Sticker.transform.rotation.eulerAngles.y == 180) //resets stickers rotation 
         {
             ReverseButton_sc.ReverseSticker(sizeB,resetB,reverseB,Sticker);
         }
