@@ -39,7 +39,10 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     // Update is called once per frame
     internal void Update()
     {
-        DeactivateButtons();
+        if(Input.GetMouseButtonDown(0) && isPointer_OutsideSticker) 
+        {
+            DeactivateButtons();
+        }
     }
     internal void OnCollisionEnter2D(Collision2D collision)
     {
@@ -115,8 +118,9 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     {
         if(!Stickeble)
         {
-            pivot.transform.position = PivotStartPosition;
-            ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,pivot,this.gameObject);
+            pivot.transform.position = PivotStartPosition; //Puts sticker back in the original place 
+            ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,pivot,this.gameObject); //Resets sticker 
+            DeactivateButtons();
         }
     }
     internal void ActivateButtons()
@@ -130,11 +134,8 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     internal void DeactivateButtons()
     {
-        if(Input.GetMouseButtonDown(0) && isPointer_OutsideSticker)
-        {
-            SizeButton.SetActive(false);
-            ResetButton.SetActive(false);
-            ReverseButton.SetActive(false);
-        }
+        SizeButton.SetActive(false);
+        ResetButton.SetActive(false);
+        ReverseButton.SetActive(false);
     }
 }
