@@ -13,7 +13,6 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     GameObject Reset_Button;
     GameObject Reverse_Button;
     GameObject Rotate_Button;
-    Vector2 prevMousePosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,8 +25,6 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         Rotate_Button = Sticker.transform.GetChild(3).gameObject;
 
         pivot = Sticker.transform.parent.gameObject;
-
-        prevMousePosition = this.transform.position;
     }
 
     // Update is called once per frame
@@ -58,7 +55,6 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
 
           
         pivot.transform.localScale = scale;
-        prevMousePosition = mousePosition;
     }
     public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject StickerParent)
     {
