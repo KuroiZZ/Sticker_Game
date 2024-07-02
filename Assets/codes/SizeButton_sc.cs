@@ -12,6 +12,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     GameObject pivot;
     GameObject Reset_Button;
     GameObject Reverse_Button;
+    GameObject Rotate_Button;
     Vector2 prevMousePosition;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,8 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         Reset_Button = Sticker.transform.GetChild(1).gameObject;
 
         Reverse_Button = Sticker.transform.GetChild(2).gameObject;
+
+        Rotate_Button = Sticker.transform.GetChild(3).gameObject;
 
         pivot = Sticker.transform.parent.gameObject;
 
@@ -35,7 +38,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         ReSize_Sticker();
-        Fix_Size(this.gameObject,Reset_Button,Reverse_Button,pivot);
+        Fix_Size(this.gameObject,Reset_Button,Reverse_Button,Rotate_Button,pivot);
     }
     void ReSize_Sticker()
     {
@@ -57,12 +60,13 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         pivot.transform.localScale = scale;
         prevMousePosition = mousePosition;
     }
-    public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject StickerParent)
+    public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject StickerParent)
     {
         //This function keeps the little buttons' size fixed.
         float FixScale = 1; 
         sizeB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
         resetB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
         reverseB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
+        rotateB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
     }
 }
