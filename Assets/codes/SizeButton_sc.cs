@@ -39,13 +39,21 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     }
     void ReSize_Sticker()
     {
+        Vector3 StickerPosition = Sticker.transform.position;
         Vector2 mousePosition = Input.mousePosition;
         Vector2 scale = pivot.transform.localScale;
+
         //With scale.x comparations we determine pivots max and min size
         //With (mousePosition.x - this.transform.position.x) comparations we determine if pivot is going to get larger or get smaller 
-        if((scale.x >= 2 && (mousePosition.x - this.transform.position.x) > 0) || (scale.x <= 0.5 && (mousePosition.x - this.transform.position.x) < 0))
+        if((scale.x >= 2f && (mousePosition.x - this.transform.position.x) > 0))
         {
-            scale = pivot.transform.localScale;
+            scale.x = 2f;
+            scale.y = 2f;
+        }
+        else if((scale.x <= 0.5f && (mousePosition.x - this.transform.position.x) < 0))
+        {
+            scale.x = 0.5f;
+            scale.y = 0.5f;
         }
         else
         {
@@ -53,7 +61,6 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
             scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
         }
 
-          
         pivot.transform.localScale = scale;
     }
     public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject StickerParent)
