@@ -9,7 +9,6 @@ using UnityEditor.PackageManager.Requests;
 public class SizeButton_sc : MonoBehaviour, IDragHandler
 {
     GameObject Sticker;
-    GameObject pivot;
     GameObject Reset_Button;
     GameObject Reverse_Button;
     GameObject Rotate_Button;
@@ -33,7 +32,6 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
 
         Rotate_Button = Sticker.transform.GetChild(3).gameObject;
 
-        pivot = Sticker.transform.parent.gameObject;
     }
 
     // Update is called once per frame
@@ -44,7 +42,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         ReSize_Sticker();
-        Fix_Size(this.gameObject,Reset_Button,Reverse_Button,Rotate_Button,pivot);
+        Fix_Size(this.gameObject,Reset_Button,Reverse_Button,Rotate_Button,Sticker);
     }
     void ReSize_Sticker()
     {
@@ -58,7 +56,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         float endDistance = Vector2.Distance(Mouse_Position, StickerPosition); 
         float new_scale = endDistance / startDistance;
 
-        //With StickerScale.x comparations we determine pivots max and min size
+        //With StickerScale.x comparations we determine stickers max and min size
         //With (StickerScale.x < new_scale) comparations we determine if sticker is going to get larger or get smaller 
         if((StickerScale.x >= 2f) && (StickerScale.x < new_scale))
         {
@@ -85,16 +83,15 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
            
         }
 
-        //pivot.transform.localScale = scale;
         
     }
-    public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject StickerParent)
+    public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject Sticker)
     {
         //This function keeps the little buttons' size fixed.
         float FixScale = 1; 
-        sizeB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
-        resetB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
-        reverseB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
-        rotateB.transform.localScale = new Vector2(FixScale/StickerParent.transform.localScale.x,FixScale/StickerParent.transform.localScale.y);
+        sizeB.transform.localScale = new Vector2(FixScale/Sticker.transform.localScale.x,FixScale/Sticker.transform.localScale.y);
+        resetB.transform.localScale = new Vector2(FixScale/Sticker.transform.localScale.x,FixScale/Sticker.transform.localScale.y);
+        reverseB.transform.localScale = new Vector2(FixScale/Sticker.transform.localScale.x,FixScale/Sticker.transform.localScale.y);
+        rotateB.transform.localScale = new Vector2(FixScale/Sticker.transform.localScale.x,FixScale/Sticker.transform.localScale.y);
     }
 }

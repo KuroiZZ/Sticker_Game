@@ -5,12 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler
 {
-    GameObject pivot;
     GameObject SizeButton;
     GameObject ResetButton;
     GameObject ReverseButton;
     GameObject RotateButton;
-    Vector2 PivotStartPosition;
+    Vector2 StickerStartPosition;
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
@@ -18,7 +17,6 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     // Start is called before the first frame update
     internal void Start()
     {
-        pivot = this.transform.parent.gameObject;
 
         SizeButton = this.transform.GetChild(0).gameObject;
         SizeButton.SetActive(false);
@@ -32,12 +30,12 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         RotateButton = this.transform.GetChild(3).gameObject;
         RotateButton.SetActive(false);
 
-        PivotStartPosition = pivot.transform.position;
-
         isSticker_OutsideMenu = false;
         isPointer_OutsideSticker = true;
         Stickeble = false;
         onDrag = false;
+
+        StickerStartPosition = this.transform.position;
     }
 
     // Update is called once per frame
@@ -102,28 +100,25 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         onDrag = false;
         Drag_Back();
     }
+    
     internal void Drag()
     {
         if(!SizeButton.activeInHierarchy)
         {
             Vector2 mousePosition = Input.mousePosition;
-            Vector2 pivotPosition;
             if(mousePosition != (Vector2)this.transform.position)
             {
                 onDrag = true;
             }
             this.transform.position = mousePosition;
-            pivotPosition.x = this.transform.position.x - GetComponent<RectTransform>().rect.width/2*pivot.transform.localScale.x;
-            pivotPosition.y = this.transform.position.y + GetComponent<RectTransform>().rect.height/2*pivot.transform.localScale.y;
-            pivot.transform.position = pivotPosition;
         }
     }
     internal void Drag_Back()
     {
         if(!Stickeble)
         {
-            pivot.transform.position = PivotStartPosition; //Puts sticker back in the original place 
-            ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,RotateButton,pivot,this.gameObject); //Resets sticker 
+            this.transform.position = StickerStartPosition; //Puts sticker back in the original place 
+            ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,RotateButton,this.gameObject); //Resets sticker 
             DeactivateButtons();
         }
     }
