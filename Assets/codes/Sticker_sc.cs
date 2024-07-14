@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler
 {
+
     GameObject SizeButton;
     GameObject ResetButton;
     GameObject ReverseButton;
@@ -13,11 +14,11 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
-    bool onDrag;
+    bool isStickerOnDrag;
+    bool areButtonsActive;
     // Start is called before the first frame update
     internal void Start()
     {
-
         SizeButton = this.transform.GetChild(0).gameObject;
         SizeButton.SetActive(false);
 
@@ -33,7 +34,8 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         isSticker_OutsideMenu = false;
         isPointer_OutsideSticker = true;
         Stickeble = false;
-        onDrag = false;
+        isStickerOnDrag = false;
+        areButtonsActive = false;
 
         StickerStartPosition = this.transform.position;
     }
@@ -48,7 +50,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     internal void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("menu"))
+        if(collision.gameObject.CompareTag("menu")) //if sticker is starting to collision with "menu" 
         {
             isSticker_OutsideMenu = false;
             Stickeble = false;
@@ -56,23 +58,20 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     internal void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("paper")&&isSticker_OutsideMenu)
+        if(collision.gameObject.CompareTag("paper")&&isSticker_OutsideMenu) //while sticker collisions with "paper" and sticker is outside of menu 
         {
             Stickeble = true;
         }
-        if(collision.gameObject.CompareTag("menu"))
+        if(collision.gameObject.CompareTag("menu")) //while sticker collisions with "menu"
         {
             isSticker_OutsideMenu = false;
         }  
     }
-    internal void OnCollisionExit2D(Collision2D collision)
+    internal void OnCollisionExit2D(Collision2D collision) 
     {
-        if(collision.gameObject.CompareTag("menu"))
+        if(collision.gameObject.CompareTag("menu")) //if sticker is ending the collision with "menu"
         {
             isSticker_OutsideMenu = true;
-        }
-        if(collision.gameObject.CompareTag("menu"))
-        {
             Stickeble = false;
         }
     }
@@ -86,34 +85,34 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!onDrag)
+        if(!isStickerOnDrag)
         {
             ActivateButtons();
         }
     }
     public void OnDrag(PointerEventData eventData)
     {
-        Drag();
+        DragSticker();
     }
     public void OnDrop(PointerEventData eventData)
     {
-        onDrag = false;
-        Drag_Back();
+        isStickerOnDrag = false;
+        DragBackSticker();
     }
     
-    internal void Drag()
+    internal void DragSticker()
     {
-        if(!SizeButton.activeInHierarchy)
+        if(!areButtonsActive) 
         {
             Vector2 mousePosition = Input.mousePosition;
             if(mousePosition != (Vector2)this.transform.position)
             {
-                onDrag = true;
+                isStickerOnDrag = true;
             }
-            this.transform.position = mousePosition;
+            this.transform.position = mousePosition; //sticker is moved to mouse position
         }
     }
-    internal void Drag_Back()
+    internal void DragBackSticker()
     {
         if(!Stickeble)
         {
@@ -130,6 +129,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
             ResetButton.SetActive(true);
             ReverseButton.SetActive(true);
             RotateButton.SetActive(true);
+            areButtonsActive = true;
         }
     }
     internal void DeactivateButtons()
@@ -138,5 +138,6 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         ResetButton.SetActive(false);
         ReverseButton.SetActive(false);
         RotateButton.SetActive(false);
+        areButtonsActive = false;
     }
 }
