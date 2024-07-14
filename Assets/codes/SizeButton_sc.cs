@@ -13,10 +13,19 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     GameObject Reset_Button;
     GameObject Reverse_Button;
     GameObject Rotate_Button;
+    Vector3 startScale;
+    float startDistance;
+    Vector3 StickerPosition;
+    Vector2 buttonPosition;
     // Start is called before the first frame update
     void Start()
     {
         Sticker = gameObject.transform.parent.gameObject;
+        startScale = Sticker.transform.localScale;
+        
+        StickerPosition = Sticker.transform.position;
+        buttonPosition = this.transform.position;
+        startDistance = Vector2.Distance(StickerPosition,buttonPosition);
 
         Reset_Button = Sticker.transform.GetChild(1).gameObject;
 
@@ -39,29 +48,45 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     }
     void ReSize_Sticker()
     {
-        Vector3 StickerPosition = Sticker.transform.position;
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 scale = pivot.transform.localScale;
+        
+        Vector2 Mouse_Position = Input.mousePosition;
+        Vector2 SizeButton_Position = this.transform.position;
+        Vector2 StickerScale = Sticker.transform.localScale;
+        Vector2 ReverseButton_Position = Reverse_Button.transform.position;
+        
+        //Calculating the distance between mouse and stickers center so we can also calculate the new size scale 
+        float endDistance = Vector2.Distance(Mouse_Position, StickerPosition); 
+        float new_scale = endDistance / startDistance;
 
-        //With scale.x comparations we determine pivots max and min size
-        //With (mousePosition.x - this.transform.position.x) comparations we determine if pivot is going to get larger or get smaller 
-        if((scale.x >= 2f && (mousePosition.x - this.transform.position.x) > 0))
+        //With StickerScale.x comparations we determine pivots max and min size
+        //With (StickerScale.x < new_scale) comparations we determine if sticker is going to get larger or get smaller 
+        if((StickerScale.x >= 2f) && (StickerScale.x < new_scale))
         {
-            scale.x = 2f;
-            scale.y = 2f;
+            StickerScale.x = 2;
+            StickerScale.y = 2;
+            Sticker.transform.localScale = StickerScale;
         }
-        else if((scale.x <= 0.5f && (mousePosition.x - this.transform.position.x) < 0))
+        else if((StickerScale.x <= 0.5f) && (StickerScale.x > new_scale))
         {
-            scale.x = 0.5f;
-            scale.y = 0.5f;
+            StickerScale.x = 0.5f;
+            StickerScale.y = 0.5f;
+            Sticker.transform.localScale = StickerScale;
         }
         else
         {
-            scale.x += (mousePosition.x - this.transform.position.x)*0.005f;
-            scale.y += (mousePosition.x - this.transform.position.x)*0.005f;
+            //(Mouse_Position - ReverseButton_Position).magnitude is the distance between top left corner of sticker and mouse
+            //(Mouse_Position - SizeButton_Position).magnitude is the distance between bottom right corner of sticket and mouse 
+            //cornerDetector is positive if mouse is closer to bottom right corner and negative if mouse is closer to top left corner 
+            float cornerDetector = (Mouse_Position - ReverseButton_Position).magnitude - (Mouse_Position - SizeButton_Position).magnitude;
+            if( ((StickerScale.x < new_scale) && (cornerDetector > 0)) || (StickerScale.x > new_scale))
+            {
+                Sticker.transform.localScale = startScale * new_scale;
+            }
+           
         }
 
-        pivot.transform.localScale = scale;
+        //pivot.transform.localScale = scale;
+        
     }
     public static void Fix_Size(GameObject sizeB, GameObject resetB, GameObject reverseB, GameObject rotateB, GameObject StickerParent)
     {
