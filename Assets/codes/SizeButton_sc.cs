@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEditor.PackageManager.Requests;
 
-public class SizeButton_sc : MonoBehaviour, IDragHandler
+public class SizeButton_sc : MonoBehaviour, IDragHandler, IBeginDragHandler
 {
     GameObject Sticker;
     GameObject Reset_Button;
@@ -14,7 +14,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
     GameObject Rotate_Button;
     Vector3 startScale;
     float startDistance;
-    Vector3 StickerPosition;
+    public Vector3 StickerPosition;
     Vector2 buttonPosition;
     // Start is called before the first frame update
     void Start()
@@ -22,27 +22,27 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler
         Sticker = gameObject.transform.parent.gameObject;
         startScale = Sticker.transform.localScale;
         
-        StickerPosition = Sticker.transform.position;
-        buttonPosition = this.transform.position;
-        startDistance = Vector2.Distance(StickerPosition,buttonPosition);
-
         Reset_Button = Sticker.transform.GetChild(1).gameObject;
 
         Reverse_Button = Sticker.transform.GetChild(2).gameObject;
 
         Rotate_Button = Sticker.transform.GetChild(3).gameObject;
-
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        
+        GetStartVariablesForSizeFunction();
     }
     public void OnDrag(PointerEventData eventData)
     {
         ReSize_Sticker();
         Fix_Size(this.gameObject,Reset_Button,Reverse_Button,Rotate_Button,Sticker);
+    }
+    public void GetStartVariablesForSizeFunction()
+    {
+        startScale = Sticker.transform.localScale;
+        StickerPosition = Sticker.transform.position;
+        buttonPosition = this.transform.position;
+        startDistance = Vector2.Distance(StickerPosition,buttonPosition);
     }
     void ReSize_Sticker()
     {
