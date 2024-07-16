@@ -44,7 +44,6 @@ public class ReverseButton_sc : MonoBehaviour, IPointerClickHandler
         else
         {
             Sticker.transform.Rotate(0f, 180f, 0f); //sticker is reversed here
-            Debug.Log(Sticker.transform.rotation.eulerAngles.y);
 
             sizeB.transform.Rotate(0f, 180f, 0f);  //Buttons are reversed back since they shouldn't be reversed.
             resetB.transform.Rotate(0f, 180f, 0f);//And we protected their image here
