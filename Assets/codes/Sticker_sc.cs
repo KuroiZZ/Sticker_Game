@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler
+public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler, IBeginDragHandler
 {
 
     GameObject SizeButton;
@@ -11,6 +11,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     GameObject ReverseButton;
     GameObject RotateButton;
     Vector2 StickerStartPosition;
+    GameObject CloneSticker;
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
@@ -90,9 +91,26 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
             ActivateButtons();
         }
     }
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(!Stickeble)
+        {
+            GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent);
+            CloneSticker = clone;
+        }
+
+    }
     public void OnDrag(PointerEventData eventData)
     {
-        DragSticker();
+        if(Stickeble)
+        {
+            DragSticker();
+        }
+        else
+        {
+            TakeSticker();
+        }
+        
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -111,6 +129,15 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
             }
             this.transform.position = mousePosition; //sticker is moved to mouse position
         }
+    }
+    internal void TakeSticker()
+    {
+        Vector2 mousePosition = Input.mousePosition;
+        if(mousePosition != (Vector2)CloneSticker.transform.position)
+        {
+            isStickerOnDrag = true;
+        }
+        CloneSticker.transform.position = mousePosition;
     }
     internal void DragBackSticker()
     {
