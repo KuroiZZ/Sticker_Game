@@ -97,6 +97,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        rt.SetAsLastSibling(); //Sets sticker on top of other stickers
         if(!isStickerOnDrag)
         {
             ActivateButtons();
