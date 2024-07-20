@@ -27,6 +27,11 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler, IBeginDragHandler
         Reverse_Button = Sticker.transform.GetChild(2).gameObject;
 
         Rotate_Button = Sticker.transform.GetChild(3).gameObject;
+
+        StickerPosition = Sticker.transform.position;
+        buttonPosition = this.transform.position;
+        startDistance = Vector2.Distance(StickerPosition,buttonPosition);
+        startScale = Sticker.transform.localScale;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -39,10 +44,8 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler, IBeginDragHandler
     }
     public void GetStartVariablesForSizeFunction()
     {
-        startScale = Sticker.transform.localScale;
         StickerPosition = Sticker.transform.position;
         buttonPosition = this.transform.position;
-        startDistance = Vector2.Distance(StickerPosition,buttonPosition);
     }
     void ReSize_Sticker()
     {
@@ -82,6 +85,8 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler, IBeginDragHandler
             }
            
         }
+        Debug.Log("EndDistance" + endDistance);
+        Debug.Log("StartDistance" + startDistance);
 
         
     }
