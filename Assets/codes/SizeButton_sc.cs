@@ -85,8 +85,7 @@ public class SizeButton_sc : MonoBehaviour, IDragHandler, IBeginDragHandler
             }
            
         }
-        Debug.Log("EndDistance" + endDistance);
-        Debug.Log("StartDistance" + startDistance);
+
 
         
     }
