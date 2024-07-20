@@ -50,17 +50,20 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         {
             DeactivateButtons();
         }
+        if(Input.GetMouseButtonUp(0))
+        {
+            if(this.gameObject.name.Contains("Clone"))
+            {
+                DestroySticker();
+            }
+        }
     }
     internal void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if(collision.gameObject.CompareTag("menu")) //if sticker is starting to collision with "menu" 
         {
-            if(isStickerOnDrag)
-            {
-                isSticker_OutsideMenu = false;
-                Stickeble = false;
-            }
+            isSticker_OutsideMenu = false;
+            Stickeble = false;
         } 
     }
     internal void OnCollisionStay2D(Collision2D collision)
@@ -79,9 +82,9 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         if(collision.gameObject.CompareTag("menu")) //if sticker is ending the collision with "menu"
         {
             isSticker_OutsideMenu = true;
-            Stickeble = false;
         }
     }
+    //We control mouse is inside sticker in OnPointerDown and OnPointerUp because you can just hold and dont drag sticker
     public void OnPointerDown(PointerEventData eventData)
     {
         isPointer_OutsideSticker = false;
@@ -115,9 +118,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     {
         isStickerOnDrag = false;
         //DragBackSticker();
-        DestroySticker();
     }
-    
     internal void DragSticker()
     {
         if(!areButtonsActive) 
@@ -161,7 +162,6 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
             DeactivateButtons();
         }
     }
-
     internal void DestroySticker()
     {
         if(!Stickeble)
