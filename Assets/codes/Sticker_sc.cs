@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDropHandler, IPointerClickHandler, IPointerUpHandler, IBeginDragHandler
 {
-
+    RectTransform rt;
     GameObject SizeButton;
     GameObject ResetButton;
     GameObject ReverseButton;
@@ -22,6 +22,8 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     // Start is called before the first frame update
     internal void Start()
     {
+        rt = GetComponent<RectTransform>();
+
         SizeButton = this.transform.GetChild(0).gameObject;
         SizeButton.SetActive(false);
 
@@ -102,13 +104,13 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        rt.SetAsLastSibling(); //Sets sticker on top of other stickers
         localStickeble = Stickeble;
         if(!localStickeble)
         {
             GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent);
             CloneSticker = clone;
         }
-
     }
     public void OnDrag(PointerEventData eventData)
     {
