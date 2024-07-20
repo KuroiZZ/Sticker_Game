@@ -15,8 +15,10 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
+    bool localStickeble;
     bool isStickerOnDrag;
     bool areButtonsActive;
+    bool isSizing;
     // Start is called before the first frame update
     internal void Start()
     {
@@ -51,10 +53,14 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     internal void OnCollisionEnter2D(Collision2D collision)
     {
+        
         if(collision.gameObject.CompareTag("menu")) //if sticker is starting to collision with "menu" 
         {
-            isSticker_OutsideMenu = false;
-            Stickeble = false;
+            if(isStickerOnDrag)
+            {
+                isSticker_OutsideMenu = false;
+                Stickeble = false;
+            }
         } 
     }
     internal void OnCollisionStay2D(Collision2D collision)
@@ -93,7 +99,8 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(!Stickeble)
+        localStickeble = Stickeble;
+        if(!localStickeble)
         {
             GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent);
             CloneSticker = clone;
@@ -102,32 +109,38 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     }
     public void OnDrag(PointerEventData eventData)
     {
-        if(Stickeble)
-        {
-            DragSticker();
-        }
-        else
-        {
-            TakeSticker();
-        }
-        
+        DragSticker();  
     }
     public void OnDrop(PointerEventData eventData)
     {
         isStickerOnDrag = false;
-        DragBackSticker();
+        //DragBackSticker();
+        DestroySticker();
     }
     
     internal void DragSticker()
     {
         if(!areButtonsActive) 
         {
-            Vector2 mousePosition = Input.mousePosition;
-            if(mousePosition != (Vector2)this.transform.position)
+            if(localStickeble)
             {
-                isStickerOnDrag = true;
+                Vector2 mousePosition = Input.mousePosition;
+                if(mousePosition != (Vector2)this.transform.position)
+                {
+                    isStickerOnDrag = true;
+                }
+                this.transform.position = mousePosition; //sticker is moved to mouse position
             }
-            this.transform.position = mousePosition; //sticker is moved to mouse position
+            else
+            {
+                Vector2 mousePosition = Input.mousePosition;
+                if(mousePosition != (Vector2)CloneSticker.transform.position)
+                {
+                    isStickerOnDrag = true;
+                }
+                CloneSticker.transform.position = mousePosition; 
+            }
+
         }
     }
     internal void TakeSticker()
@@ -146,6 +159,14 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
             this.transform.position = StickerStartPosition; //Puts sticker back in the original place 
             ResetButton_sc.Reset_All(SizeButton,ResetButton,ReverseButton,RotateButton,this.gameObject); //Resets sticker 
             DeactivateButtons();
+        }
+    }
+
+    internal void DestroySticker()
+    {
+        if(!Stickeble)
+        {
+            Destroy(this.gameObject);
         }
     }
     internal void ActivateButtons()
