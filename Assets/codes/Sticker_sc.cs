@@ -109,7 +109,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         localStickeble = Stickeble;
         if(!localStickeble)
         {
-            GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent);
+            GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent.parent);
             CloneSticker = clone;
         }
     }
