@@ -12,6 +12,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     GameObject RotateButton;
     Vector2 StickerStartPosition;
     GameObject CloneSticker;
+    GameObject Canvas;
     bool isSticker_OutsideMenu;
     bool isPointer_OutsideSticker;
     bool Stickeble;
@@ -22,6 +23,8 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
     // Start is called before the first frame update
     internal void Start()
     {
+        Canvas = gameObject.transform.parent.parent.gameObject;
+
         rt = GetComponent<RectTransform>();
 
         SizeButton = this.transform.GetChild(0).gameObject;
@@ -109,7 +112,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         localStickeble = Stickeble;
         if(!localStickeble)
         {
-            GameObject clone = Instantiate(this.gameObject,this.gameObject.transform.parent.parent);
+            GameObject clone = Instantiate(this.gameObject,Canvas.transform.GetChild(0));
             CloneSticker = clone;
         }
     }
