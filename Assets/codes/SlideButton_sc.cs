@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SlideButton : MonoBehaviour, IPointerClickHandler
+public class SlideButton_sc : MonoBehaviour, IPointerClickHandler
 {
     GameObject Canvas;
     GameObject Menu;

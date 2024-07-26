@@ -88,6 +88,10 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         {
             isSticker_OutsideMenu = true;
         }
+        if(collision.gameObject.CompareTag("paper"))
+        {
+            Stickeble = false;
+        }
     }
     //We control mouse is inside sticker in OnPointerDown and OnPointerUp because you can just hold and dont drag sticker
     public void OnPointerDown(PointerEventData eventData)
@@ -112,7 +116,7 @@ public class Sticker_sc : MonoBehaviour, IPointerDownHandler, IDragHandler, IDro
         localStickeble = Stickeble;
         if(!localStickeble)
         {
-            GameObject clone = Instantiate(this.gameObject,Canvas.transform.GetChild(0));
+            GameObject clone = Instantiate(this.gameObject,Canvas.transform.GetChild(0).gameObject.transform.GetChild(0));
             CloneSticker = clone;
         }
     }
